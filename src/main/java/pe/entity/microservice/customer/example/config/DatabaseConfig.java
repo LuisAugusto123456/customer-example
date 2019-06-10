@@ -37,7 +37,7 @@ import pe.entity.microservice.customer.example.exception.GenericException;
 @PropertySource({ "${propertiesDir}/${envTarget:dev}/config/database-${envTarget:dev}.properties" })
 @PropertySource({ "${propertiesDir}/${envTarget:dev}/secrets/database-${envTarget:dev}.properties" })
 @EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactory", transactionManagerRef = "transactionManager", basePackages = {
-		"pe.interbank.tunki.backoffice.customer.repository" })
+		"pe.entity.microservice.customer.example.repository" })
 @EnableAutoConfiguration(exclude = { DataSourceTransactionManagerAutoConfiguration.class,
 		DataSourceAutoConfiguration.class, HibernateJpaAutoConfiguration.class })
 @EnableTransactionManagement
