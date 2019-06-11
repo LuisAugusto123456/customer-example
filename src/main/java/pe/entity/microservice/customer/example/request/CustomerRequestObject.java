@@ -2,6 +2,10 @@ package pe.entity.microservice.customer.example.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
@@ -9,42 +13,49 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
  * @author lpazd
  *
  */
+@ApiModel(description = "Class representing a customer request.")
 @JsonInclude(Include.NON_NULL)
 public class CustomerRequestObject {
 
 	/**
 	 * user name
 	 */
+	@ApiModelProperty(notes = "User name the client", example = "lpazd", required = true, position = 0)
 	@JsonProperty("user_name")
 	private String userName;
 
 	/**
 	 * password
 	 */
+	@ApiModelProperty(notes = "Password the client", example = "123456", required = true, position = 1)
 	@JsonProperty("password")
 	private String password;
 
 	/**
 	 * first name
 	 */
+	@ApiModelProperty(notes = "First name the client", example = "Luis Augusto", required = true, position = 2)
 	@JsonProperty("first_name")
 	private String firstName;
 
 	/**
 	 * last name
 	 */
+	@ApiModelProperty(notes = "Last name the client", example = "Paz Davila", required = true, position = 3)
 	@JsonProperty("last_name")
 	private String lastName;
 
 	/**
 	 * age
 	 */
+	@ApiModelProperty(notes = "Age the client", example = "32", required = true, position = 4)
 	@JsonProperty("age")
 	private Integer age;
 
 	/**
 	 * birth date
 	 */
+	@ApiModelProperty(notes = "Birth date the client", example = "13/04/1987", required = true, position = 5)
 	@JsonProperty("birth_date")
 	private String birthDate;
 

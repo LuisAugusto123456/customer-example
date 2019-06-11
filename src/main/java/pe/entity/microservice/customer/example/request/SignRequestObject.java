@@ -4,24 +4,30 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Sign Request Object
  * 
  * @author lpazd
  *
  */
+@ApiModel(description = "Class representing a sign in.")
 @JsonInclude(Include.NON_NULL)
 public class SignRequestObject {
 
 	/**
 	 * user name
 	 */
+	@ApiModelProperty(notes = "User name the client", example = "lpazd", required = true, position = 0)
 	@JsonProperty("user_name")
 	private String userName;
 
 	/**
 	 * password
 	 */
+	@ApiModelProperty(notes = "Password the client", example = "123456", required = true, position = 1)
 	@JsonProperty("password")
 	private String password;
 
