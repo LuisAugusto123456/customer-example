@@ -1,0 +1,110 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: customer
+  labels:
+    ambiente: dev
+    tier: backend
+    app: customer
+spec:
+  tls:
+  - hosts:
+    - customer.038361266767.dkr.ecr.us-east-2.amazonaws.com
+    secretName: pysdescluster
+  rules:
+  - host: customer.038361266767.dkr.ecr.us-east-2.amazonaws.com
+    http:
+      paths: 
+      - backend:
+          serviceName: customer
+          servicePort: 8080
+        path: /auth
+      - backend:
+          serviceName: customer
+          servicePort: 8080
+        path: /users		
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer
+  labels:
+    ambiente: dev
+    tier: backend
+    app: customer
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+  selector:
+    app: customer
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: customer
+  labels:
+    ambiente: dev
+    tier: backend
+    app: customer
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        ambiente: dev
+        tier: backend
+        app: customer
+    spec:
+      containers:
+        - resources:
+            requests:
+              memory: "256Mi"
+            limits:
+              memory: "768Mi"
+          image: 038361266767.dkr.ecr.us-east-2.amazonaws.com/image-dev:latest
+          imagePullPolicy: Always
+          name: customer
+          env:
+            - name: artifact_id
+              value: "customer-example"
+            - name: artifact_version
+              value: 1.0.0
+            - name: TZ
+              value: "America/Lima"
+            - name: java_options
+              value: "-XX:+UseSerialGC -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=512m"
+            - name: envTarget
+              value: "dev"
+            - name: propertiesDir
+              value: "file:/data/customer-example/properties/"
+            - name: propertiesPath
+              value: "/data/customer-example/properties/"
+          ports:
+            - containerPort: 8080
+              name: customer
+          volumeMounts:
+          - mountPath: /data/customer-example/properties/dev/config/
+            name: config-volume
+          - mountPath: /data/customer-example/properties/dev/secrets/
+            name: secrets-volume
+          - mountPath: /data/customer-example/log/
+            name: data-volume
+            subPath: data/customer-example/log/
+      imagePullSecrets:
+        - name: eks-secret
+      volumes:
+        - name: config-volume
+          configMap:
+            name: customer-config
+        - name: secrets-volume
+          secret:
+            secretName: customer-secrets
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: eks-volume

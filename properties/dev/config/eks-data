@@ -1,0 +1,2 @@
+expiration.access.token=120
+expiration.refresh.token=300

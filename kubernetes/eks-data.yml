@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: eks-data
+  labels:
+    app: properties
+spec:
+  containers:
+  - image: 038361266767.dkr.ecr.us-east-2.amazonaws.com/eks-data
+    name: eks-data
+    imagePullPolicy: Always
+    volumeMounts:
+    - mountPath: /eks-data
+      name: data-volume
+  volumes:
+  - name: data-volume
+    persistentVolumeClaim:
+      claimName: eks-volume
+  imagePullSecrets:
+    - name: eks-secret
