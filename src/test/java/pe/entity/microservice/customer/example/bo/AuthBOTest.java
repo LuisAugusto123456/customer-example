@@ -47,7 +47,7 @@ public class AuthBOTest {
 	
 	@Test
 	public void whenSignIn_thenReturnSuccess() throws ParseException {
-		User user = new User(1L, "uuid", "userName", "password", "firstName", "lastName", 32,
+		User user = new User("uuid", "userName", "password", "firstName", "lastName", 32,
 				new SimpleDateFormat("dd/MM/yyyy").parse("13/04/1987"), "createdUser", new Date(), "lastModifiedUser",
 				new Date());
 		Mockito.when(userService.findByUserNameAndPassword("userName","password")).thenReturn(user);

@@ -53,7 +53,7 @@ public class UserBOTest {
 
 	@Test
 	public void whenSaveUser_thenReturnSuccess() throws ParseException {
-		User user = new User(1L, "uuid", "userName", "password", "firstName", "lastName", 32,
+		User user = new User("uuid", "userName", "password", "firstName", "lastName", 32,
 				new SimpleDateFormat("dd/MM/yyyy").parse("13/04/1987"), "createdUser", new Date(), "lastModifiedUser",
 				new Date());
 		Mockito.when(userService.findByUserName("userName")).thenReturn(null);
@@ -63,7 +63,7 @@ public class UserBOTest {
 
 	@Test
 	public void whenSaveUser_thenReturnError_userNameExist() throws ParseException {
-		User user = new User(1L, "uuid", "userName", "password", "firstName", "lastName", 32,
+		User user = new User("uuid", "userName", "password", "firstName", "lastName", 32,
 				new SimpleDateFormat("dd/MM/yyyy").parse("13/04/1987"), "createdUser", new Date(), "lastModifiedUser",
 				new Date());
 		Mockito.when(userService.findByUserName("userName")).thenReturn(user);
@@ -73,11 +73,11 @@ public class UserBOTest {
 	@Test
 	public void whenKPI_thenReturnSuccess() {
 		List<User> lstUser = new ArrayList<User>();
-		lstUser.add(new User(null, null, null, null, null, null, 12, null, null, null, null, null));
-		lstUser.add(new User(null, null, null, null, null, null, 55, null, null, null, null, null));
-		lstUser.add(new User(null, null, null, null, null, null, 74, null, null, null, null, null));
-		lstUser.add(new User(null, null, null, null, null, null, 79, null, null, null, null, null));
-		lstUser.add(new User(null, null, null, null, null, null, 90, null, null, null, null, null));
+		lstUser.add(new User(null, null, null, null, null, 12, null, null, null, null, null));
+		lstUser.add(new User(null, null, null, null, null, 55, null, null, null, null, null));
+		lstUser.add(new User(null, null, null, null, null, 74, null, null, null, null, null));
+		lstUser.add(new User(null, null, null, null, null, 79, null, null, null, null, null));
+		lstUser.add(new User(null, null, null, null, null, 90, null, null, null, null, null));
 		Mockito.when(userService.findAll()).thenReturn(lstUser);
 		userBO.kpi();
 	}
@@ -91,11 +91,11 @@ public class UserBOTest {
 	@Test
 	public void whenCustomerList_thenReturnSuccess() throws ParseException {
 		List<User> lstUser = new ArrayList<User>();
-		lstUser.add(new User(null, null, null, null, null, null, 12, new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2007"), null, null, null, null));
-		lstUser.add(new User(null, null, null, null, null, null, 55, new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1964"), null, null, null, null));
-		lstUser.add(new User(null, null, null, null, null, null, 74, new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1945"), null, null, null, null));
-		lstUser.add(new User(null, null, null, null, null, null, 79, new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1940"), null, null, null, null));
-		lstUser.add(new User(null, null, null, null, null, null, 90, new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1929"), null, null, null, null));
+		lstUser.add(new User(null, null, null, null, null, 12, new SimpleDateFormat("dd/MM/yyyy").parse("01/01/2007"), null, null, null, null));
+		lstUser.add(new User(null, null, null, null, null, 55, new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1964"), null, null, null, null));
+		lstUser.add(new User(null, null, null, null, null, 74, new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1945"), null, null, null, null));
+		lstUser.add(new User(null, null, null, null, null, 79, new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1940"), null, null, null, null));
+		lstUser.add(new User(null, null, null, null, null, 90, new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1929"), null, null, null, null));
 		Mockito.when(userService.findAll()).thenReturn(lstUser);
 		userBO.customerList();
 	}

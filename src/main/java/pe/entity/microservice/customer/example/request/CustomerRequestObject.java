@@ -1,5 +1,7 @@
 package pe.entity.microservice.customer.example.request;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,12 +12,18 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * Customer Request Object
+ * 
  * @author lpazd
  *
  */
 @ApiModel(description = "Class representing a customer request.")
 @JsonInclude(Include.NON_NULL)
-public class CustomerRequestObject {
+public class CustomerRequestObject implements Serializable {
+
+	/**
+	 * serial
+	 */
+	private static final long serialVersionUID = -8445943548965154778L;
 
 	/**
 	 * user name
@@ -58,6 +66,13 @@ public class CustomerRequestObject {
 	@ApiModelProperty(notes = "Birth date the client", example = "13/04/1987", required = true, position = 5)
 	@JsonProperty("birth_date")
 	private String birthDate;
+
+	/**
+	 * Customer Request Object
+	 */
+	public CustomerRequestObject() {
+		super();
+	}
 
 	/**
 	 * Customer Request Object

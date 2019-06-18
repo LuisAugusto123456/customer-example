@@ -5,10 +5,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
 import org.hibernate.annotations.Type;
 import org.junit.Assert;
 import org.junit.Before;
@@ -64,7 +64,7 @@ public class UserTest {
 
 	@Test
 	public void testAllFieldAnnotations_givenTheUserFieldAnnotations_whenEvaluatingTheCorrectAnnotations_thenReturnsTrueIfEquals() {
-		CommonTestUtil.assertField(User.class, "id", Id.class, Column.class);
+		CommonTestUtil.assertField(User.class, "id", Id.class, Column.class,GeneratedValue.class);
 		CommonTestUtil.assertField(User.class, "uuid", Column.class, NotNull.class);
 		CommonTestUtil.assertField(User.class, "userName", Column.class, NotNull.class);
 		CommonTestUtil.assertField(User.class, "password", Column.class, NotNull.class);
@@ -101,7 +101,7 @@ public class UserTest {
 
 	@Test
 	public void testConstructor_givenTheInitialValuesFromUser_whenCallingTheConstructorWithParameters_thenReturnsTrueIfObjectNotNull() {
-		User user = new User(id, uuid, userName, password, firstName, lastName, age, birthDate, createdUser,
+		User user = new User(uuid, userName, password, firstName, lastName, age, birthDate, createdUser,
 				createdDate, lastModifiedUser, lastModifiedDate);
 		Assert.assertNotEquals(null, user);
 	}

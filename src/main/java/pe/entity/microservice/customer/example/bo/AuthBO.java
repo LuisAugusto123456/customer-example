@@ -44,6 +44,18 @@ public class AuthBO {
 	private String secret;
 
 	/**
+	 * Expiration Access Token
+	 */
+	@Value("${expiration.access.token}")
+	private Long expirationAccessToken;
+	
+	/**
+	 * Expiration Refresh Token
+	 */
+	@Value("${expiration.refresh.token}")
+	private Long expirationRefreshToken;
+	
+	/**
 	 * user service
 	 */
 	@Autowired
@@ -69,6 +81,8 @@ public class AuthBO {
 			JwtAuthenticationRequest authenticationRequest = getJwtAuthenticationRequest(user.getUuid(),
 					user.getUserName());
 			JwtUtil.setSecret(secret);
+			JwtUtil.setExpirationAccessToken(expirationAccessToken);
+			JwtUtil.setExpirationRefreshToken(expirationRefreshToken);
 			return ResponseEntity.ok(new UserResponseObject(user.getUuid(), JwtUtil.prepareToken(authenticationRequest),
 					JwtUtil.prepareRefreshToken(authenticationRequest, user.getId().intValue())));
 		} catch (Exception e) {
@@ -88,19 +102,20 @@ public class AuthBO {
 			JwtRefreshAuthenticationRequest authenticationRequest) {
 		try {
 			JwtUtil.setSecret(secret);
-			LOGGER_BO.info("generamos access token");
-			String accessToken = JwtUtil.returnToken(authenticationRequest.getToken());
-			Map<String, Object> claimsRequest = JwtUtil.getClaimsFromToken(accessToken, secret);
+			JwtUtil.setExpirationAccessToken(expirationAccessToken);
+			JwtUtil.setExpirationRefreshToken(expirationRefreshToken);
+			Map<String, Object> claimsRequest = JwtUtil.getClaimsFromToken(authenticationRequest.getToken(), secret);
 			LOGGER_BO.info("Validamos si el token es refresh y no access");
 			if (ObjectUtils.isEmpty(claimsRequest.get(EClaims.GEN.getCode()))) {
 				LOGGER_BO.warn("Token de acceso. No es posible refrescar.");
 				return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new GenericResponseObject(
 						EResponse.NON_SPECIFIC.getCode(), EResponse.NON_SPECIFIC.getKeyMessage()));
 			}
+			LOGGER_BO.info("generamos access token");
+			String accessToken = JwtUtil.returnToken(authenticationRequest.getToken());
 			LOGGER_BO.info("generamos refresh token");
 			return ResponseEntity.ok(new UserResponseObject(claimsRequest.get(EClaims.ID.getCode()).toString(),
-					accessToken, JwtUtil.returnRefreshToken(accessToken,
-							Integer.parseInt(claimsRequest.get(EClaims.ID.getCode()).toString()))));
+					accessToken, JwtUtil.returnRefreshToken(accessToken, 1)));
 		} catch (Exception e) {
 			LOGGER_BO.error("Error interno del servidor - refreshAndGetAuthenticationToken: " + e.toString());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new GenericResponseObject(

@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -15,6 +17,7 @@ public class User extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "USER_ID", length = 11)
 	private Long id;
 
@@ -56,7 +59,6 @@ public class User extends BaseEntity implements Serializable {
 	/**
 	 * Constructor User
 	 * 
-	 * @param id               id
 	 * @param uuid             uuid
 	 * @param userName         user name
 	 * @param password         password
@@ -69,11 +71,10 @@ public class User extends BaseEntity implements Serializable {
 	 * @param lastModifiedUser last modified user
 	 * @param lastModifiedDate last modified date
 	 */
-	public User(Long id, @NotNull String uuid, @NotNull String userName, @NotNull String password,
+	public User(@NotNull String uuid, @NotNull String userName, @NotNull String password,
 			@NotNull String firstName, @NotNull String lastName, @NotNull Integer age, @NotNull Date birthDate,
 			String createdUser, Date createdDate, String lastModifiedUser, Date lastModifiedDate) {
 		super(createdUser, createdDate, lastModifiedUser, lastModifiedDate);
-		this.id = id;
 		this.uuid = uuid;
 		this.userName = userName;
 		this.password = password;

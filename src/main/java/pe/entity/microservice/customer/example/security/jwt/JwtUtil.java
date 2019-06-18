@@ -7,12 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
-
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -41,13 +38,11 @@ public class JwtUtil {
 	/**
 	 * expiration access token
 	 */
-	@Value("${expiration.access.token}")
 	private static Long expirationAccessToken;
 
 	/**
 	 * expiration refresh token
 	 */
-	@Value("${expiration.refresh.token}")
 	private static Long expirationRefreshToken;
 
 	/**

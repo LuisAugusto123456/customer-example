@@ -37,7 +37,7 @@ public class UserServiceTest {
 
 	@Test
 	public void whenValidateServicesSuccess_ThenReturnSuccess() {
-		User user = new User(1L, "uuid", "userName", "password", "firstName", "lastName", 32, new Date(), "createdUser",
+		User user = new User("uuid", "userName", "password", "firstName", "lastName", 32, new Date(), "createdUser",
 				new Date(), "lastModifiedUser", new Date());
 		Mockito.when(userRepository.save(user)).thenReturn(user);
 		Assert.assertNotNull(userServiceImpl.save(user));

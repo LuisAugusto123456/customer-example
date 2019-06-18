@@ -97,6 +97,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 				.permitAll().antMatchers("/auth/**")
 				
+				.permitAll().antMatchers(HttpMethod.POST, "/users/**")
+				
 				.permitAll().antMatchers("/swagger-resources/**")
 				
 				.permitAll().antMatchers("/v2/api-docs/**")

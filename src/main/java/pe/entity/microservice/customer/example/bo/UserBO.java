@@ -48,6 +48,18 @@ public class UserBO {
 	private String secret;
 
 	/**
+	 * Expiration Access Token
+	 */
+	@Value("${expiration.access.token}")
+	private Long expirationAccessToken;
+	
+	/**
+	 * Expiration Refresh Token
+	 */
+	@Value("${expiration.refresh.token}")
+	private Long expirationRefreshToken;
+	
+	/**
 	 * user service
 	 */
 	@Autowired
@@ -78,16 +90,18 @@ public class UserBO {
 			if (ObjectUtils.isEmpty(userService.findByUserName(userName))) {
 				Date currentDate = new Date();
 				LOGGER_BO.info("registramos usuario");
-				User user = userService.save(new User(null, UUID.randomUUID().toString(), userName, password, firstName,
+				User user = userService.save(new User(UUID.randomUUID().toString(), userName, password, firstName,
 						lastName, age, new SimpleDateFormat("dd/MM/yyyy").parse(birthdate), userName, currentDate,
 						userName, currentDate));
 				LOGGER_BO.info("Obtenemos tokens");
 				JwtAuthenticationRequest authenticationRequest = authBO.getJwtAuthenticationRequest(user.getUuid(),
 						user.getUserName());
 				JwtUtil.setSecret(secret);
+				JwtUtil.setExpirationAccessToken(expirationAccessToken);
+				JwtUtil.setExpirationRefreshToken(expirationRefreshToken);
 				return ResponseEntity
 						.ok(new UserResponseObject(user.getUuid(), JwtUtil.prepareToken(authenticationRequest),
-								JwtUtil.prepareRefreshToken(authenticationRequest, user.getId().intValue())));
+								JwtUtil.prepareRefreshToken(authenticationRequest, 1)));
 			}
 			LOGGER_BO.warn("user name existe");
 			return ResponseEntity.badRequest().body(new GenericResponseObject(EResponse.USER_NAME_EXIST.getCode(),
