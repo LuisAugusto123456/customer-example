@@ -41,7 +41,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	/**
 	 * token Header
 	 */
-	@Value("Authorization")
+	@Value("X-Authorization")
 	private String tokenHeader;
 
 	/**

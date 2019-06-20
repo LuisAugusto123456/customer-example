@@ -7,13 +7,8 @@ metadata:
     tier: backend
     app: customer
 spec:
-  tls:
-  - hosts:
-    - customer.038361266767.dkr.ecr.us-east-2.amazonaws.com
-    secretName: pysdescluster
   rules:
-  - host: customer.038361266767.dkr.ecr.us-east-2.amazonaws.com
-    http:
+  - http:
       paths: 
       - backend:
           serviceName: customer
@@ -23,7 +18,7 @@ spec:
           serviceName: customer
           servicePort: 8080
         path: /users		
----
+--- 
 apiVersion: v1
 kind: Service
 metadata:
@@ -33,9 +28,12 @@ metadata:
     tier: backend
     app: customer
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   ports:
-    - port: 8080
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+      name: customer
   selector:
     app: customer
 ---
